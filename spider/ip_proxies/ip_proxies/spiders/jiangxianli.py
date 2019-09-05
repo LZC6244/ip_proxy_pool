@@ -23,7 +23,7 @@ class JiangxianliSpider(BaseSpider):
             td_li = i.xpath('./td/text()').getall()
             # 该网站只有 "高匿" "透明" 两种分类
             # 我们不需要 "透明" , 去除
-            if td_li[4] in '透明':
+            if td_li[3] in '透明':
                 continue
             for k, v in zip(title_li, td_li[1:5]):
                 item[k] = v
