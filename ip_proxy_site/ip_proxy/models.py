@@ -9,7 +9,7 @@ from django.db import models
 
 
 class IpProxy(models.Model):
-    ip = models.CharField(primary_key=True, max_length=20)
+    ip = models.CharField(max_length=20)
     port = models.CharField(max_length=10)
     anonymity = models.CharField(max_length=10)
     net_type = models.CharField(max_length=10)
@@ -20,7 +20,7 @@ class IpProxy(models.Model):
     class Meta:
         # managed = False
         db_table = 'ip_proxy'
-        unique_together = (('ip', 'port'),)
+        unique_together = ['ip', 'port']
         ordering = ['-verify_time']
 
     def __str__(self):

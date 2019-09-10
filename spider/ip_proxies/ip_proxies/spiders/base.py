@@ -54,9 +54,17 @@ class BaseSpider(scrapy.Spider):
             'ip': item.get('ip'),
             'port': item.get('port'),
             'anonymity': item.get('anonymity', ''),
-            'net_type': item.get('net_type'),
+            'net_type': item.get('net_type', ''),
             'ip_location': item.get('ip_location', ''),
             'verify_time': item.get('verify_time'),
         }
-        request = FormRequest(url=url, formdata=formdata, dont_filter=True)
-        yield request
+        # 此处须指明一个回调函数，即使我们什么也不需要做
+        # 若是不指定回调，scrapy 将把 parse 方法作为回调函数
+        # 若继承本爬虫的其他爬虫重写了 parse 方法，将有几率导致发生我们意料之外的错误
+        # see https://docs.scrapy.org/en/latest/topics/request-response.html?highlight=callback#request-objects
+        request = FormRequest(url=url, formdata=formdata, callback=self.verify_end, dont_filter=True)
+        return request
+
+    def verify_end(self, response):
+        # do nothing
+        pass

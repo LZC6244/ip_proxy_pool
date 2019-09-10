@@ -30,7 +30,9 @@ class JiangxianliSpider(BaseSpider):
             # td_li[5] -> 中国 广东 汕尾
             # td_li[6] -> 联通
             # 二者合在一起才是所需数据
-            item['ip_location'] = ' '.join(td_li[5:7])
+            item['ip_location'] = ' '.join(td_li[5:7]) if len(td_li) == 12 else ''
+            if not item['net_type']:
+                item['net_type'] = 'HTTP'
             # 从上述数据组合代理为如下格式 ：http://some_proxy_server:port
             proxy = item['net_type'].lower() + '://' + item['ip'] + ':' + item['port']
             # 需加 dont_filter=True 因为测试代理是否可用每次都是访问固定的几个页面来测试
@@ -41,8 +43,10 @@ class JiangxianliSpider(BaseSpider):
 
         # 该网站页数不固定，可能为为 2~3 页或更多页
         # 此处通过是否仍能点击下一页判断
-        if_next = response.xpath('//ul[@class="pagination"]/li')[-1]
-        if not if_next.xpath('./@class'):
-            next_url = if_next.xpath('./a/@href').get()
-            next_request = Request(url=next_url, callback=self.parse)
-            yield next_request
+        if_next = response.xpath('//ul[@class="pagination"]/li')
+        if if_next:
+            if_next = if_next[-1]
+            if not if_next.xpath('./@class'):
+                next_url = if_next.xpath('./a/@href').get()
+                next_request = Request(url=next_url, callback=self.parse, dont_filter=True)
+                yield next_request

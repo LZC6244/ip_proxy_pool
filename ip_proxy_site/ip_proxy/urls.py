@@ -7,6 +7,7 @@ from . import views
 
 app_name = 'ip_proxy'
 urlpatterns = [
+    path('list/', views.proxy_list, name='list_proxy'),
     path('get/', views.proxy_get, name='get_proxy'),
     path('update/', views.proxy_update, name='update_proxy'),
     path('del/', views.proxy_del, name='del_proxy'),

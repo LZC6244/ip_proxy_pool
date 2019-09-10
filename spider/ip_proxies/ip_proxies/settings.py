@@ -91,8 +91,8 @@ DOWNLOADER_MIDDLEWARES = {
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-# 重试次数设为1 （默认为2）
-RETRY_TIMES = 1
+# 重试次数设置 （默认为2）
+RETRY_TIMES = 2
 # 超时时间设为10 （默认180）
 DOWNLOAD_TIMEOUT = 10
 
@@ -150,6 +150,7 @@ USER_AGENTS = [
 
 # IP_PROXY 相关 URL 配置
 GET_CSRF = 'http://127.0.0.1:8000/ip_proxy/get_csrf/'
+LIST_PROXY = 'http://127.0.0.1:8000/ip_proxy/list/?page=1'
 GET_PROXY = 'http://127.0.0.1:8000/ip_proxy/get/'
 UPDATE_PROXY = 'http://127.0.0.1:8000/ip_proxy/update/'
 DEL_PROXY = 'http://127.0.0.1:8000/ip_proxy/del/'

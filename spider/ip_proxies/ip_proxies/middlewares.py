@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import random
 import requests
+from datetime import datetime
 from twisted.internet.error import TimeoutError
-from ip_proxies.settings import USER_AGENTS, GET_CSRF, GET_PROXY, DEL_PROXY
+from ip_proxies.settings import USER_AGENTS, GET_CSRF, GET_PROXY, DEL_PROXY, RETRY_TIMES
 # Define here the models for your spider middleware
 #
 # See documentation in:
@@ -18,8 +19,8 @@ def get_proxy():
     return requests.get(GET_PROXY).json()
 
 
-def del_proxy(ip, port):
-    return session.post(DEL_PROXY, {'csrfmiddlewaretoken': csrf, 'ip': ip, 'port': port})
+def del_proxy(ip, port, verify_time):
+    return session.post(DEL_PROXY, {'csrfmiddlewaretoken': csrf, 'ip': ip, 'port': port, 'verify_time': verify_time})
 
 
 class IpProxiesSpiderMiddleware(object):
@@ -127,20 +128,22 @@ class RandomUA(object):
         request.headers['User-Agent'] = user_agent
 
 
-class IpProxyMiddleware(object):
-    def process_request(self, request, spider):
-        ua = random.choice(USER_AGENTS)
-        request.headers['User-Agent'] = ua
-        if request.meta.get('retry_times'):
-            # request.meta['proxy'] = request.meta['proxy']
-            pass
-        else:
-            proxy_json = get_proxy()
-            request.meta['proxy'] = proxy_json.get('proxy')
-            request.meta['ip_proxy'] = proxy_json.get('ip')
-            request.meta['port_proxy'] = proxy_json.get('port')
+class ManageProxy(object):
+    # def process_request(self, request, spider):
+    #     if request.meta.get('retry_times') or request.meta.get('proxy'):
+    #         # request.meta['proxy'] = request.meta['proxy']
+    #         pass
+    #     else:
+    #         proxy_json = get_proxy()
+    #         request.meta['proxy'] = proxy_json.get('proxy')
+    #         request.meta['ip_proxy'] = proxy_json.get('ip')
+    #         request.meta['port_proxy'] = proxy_json.get('port')
+    #         request.meta['verify_time'] = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
 
     def process_exception(self, request, exception, spider):
-        if isinstance(exception, TimeoutError):
-            del_proxy(request.meta['ip_proxy'], request.meta['port_proxy'])
-        return request.copy()
+        if all([isinstance(exception, TimeoutError),
+                request.meta.get('retry_times') == RETRY_TIMES]):
+            item = request.meta['item']
+            verify_time = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
+            del_proxy(item['ip'], item['port'], verify_time)
+        # return request.copy()
