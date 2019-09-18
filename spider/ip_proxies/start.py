@@ -2,11 +2,6 @@
 # @Author: lzc
 # @Time  :2019/8/23
 
-"""
-高匿：服务器不知道我们使用了代理。
-普匿：服务器知道我们使用了代理，但一般无法查出我们的IP地址。
-透明：服务器知道我们使用了代理，且能查出你的IP地址。（本IP池不收集）
-"""
 
 from scrapy import cmdline
 from scrapy.crawler import CrawlerProcess
