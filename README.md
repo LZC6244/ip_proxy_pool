@@ -89,6 +89,15 @@ class ManageProxy(object):
             del_proxy(item['ip'], item['port'], verify_time)
         # return request.copy()
 ```
+## 拓展
+可自行拓展代理源网站，建议使用 `scrapy` 。  
+使用 `scrapy` 注意要点：
+- 继承 `BaseSpider`
+- 使用 `IpProxiesItem`
+- 含有 `ip` `port` `anonymit` `net_type` `ip_location` （IP PORT 匿名度 类型 位置）字段（ `verify_time` 验证时间会自行处理）
+- 请求参数设置 `callback=self.verify_porxy`, `dont_filter=True`
+  
+具体写法可以参考[这里](https://github.com/LZC6244/ip_proxy_pool/tree/master/spider/ip_proxies/ip_proxies/spiders)除 `verify` 和 `base` 之外的任意 `spider`
 ## 代理池 API
 | Path | Mmethod | Description | Return | Arguments | 
 | :--  | :--: | :-- | :-- | :-- |
