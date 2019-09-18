@@ -6,16 +6,17 @@ from scrapy import Request
 
 from ip_proxies.items import IpProxiesItem
 from ip_proxies.spiders.base import BaseSpider
-from ip_proxies.settings import LIST_PROXY, TEST_URLS, DOWNLOADER_MIDDLEWARES
+from ip_proxies.settings import LIST_PROXY, TEST_URLS, DOWNLOADER_MIDDLEWARES, LOG_FILE
 
 
 class VerifySpider(BaseSpider):
     name = 'verify'
     # allowed_domains = ['verify']
     start_urls = [LIST_PROXY]
-
     DOWNLOADER_MIDDLEWARES['ip_proxies.middlewares.ManageProxy'] = 150
+
     custom_settings = {
+        'LOG_FILE': LOG_FILE.replace('.log', '__%s.log' % name),
         # 下面三行设置该爬虫为 BFO
         'DEPTH_PRIORITY': 1,
         'SCHEDULER_DISK_QUEUE': 'scrapy.squeues.PickleFifoDiskQueue',

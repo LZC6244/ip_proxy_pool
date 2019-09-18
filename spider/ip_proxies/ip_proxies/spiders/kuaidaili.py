@@ -3,11 +3,7 @@ import random
 from scrapy import Request
 from ip_proxies.spiders.base import BaseSpider
 from ip_proxies.items import IpProxiesItem
-from ip_proxies.settings import TEST_URLS
-
-"""
-1.不计算响应时间，因为 scrapy 是异步发送请求的
-"""
+from ip_proxies.settings import TEST_URLS, LOG_FILE
 
 
 class KuaidailiSpider(BaseSpider):
@@ -15,6 +11,9 @@ class KuaidailiSpider(BaseSpider):
     # allowed_domains = ['www.kuaidaili.com']
     # 只爬取前三页的就够了，免费代理质量不高
     start_urls = ['https://www.kuaidaili.com/free/inha/%s/' % x for x in range(1, 4)]
+    custom_settings = {
+        'LOG_FILE': LOG_FILE.replace('.log', '__%s.log' % name)
+    }
 
     # start_urls = ['https://www.kuaidaili.com/free/inha/2/']
 

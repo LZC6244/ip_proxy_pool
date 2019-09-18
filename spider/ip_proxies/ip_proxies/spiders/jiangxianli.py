@@ -4,13 +4,17 @@ import scrapy
 from scrapy import Request
 from ip_proxies.spiders.base import BaseSpider
 from ip_proxies.items import IpProxiesItem
-from ip_proxies.settings import TEST_URLS
+from ip_proxies.settings import TEST_URLS, LOG_FILE
 
 
 class JiangxianliSpider(BaseSpider):
     name = 'jiangxianli'
     # allowed_domains = ['jiangxianli.com']
     start_urls = ['http://ip.jiangxianli.com/?page=1']
+
+    custom_settings = {
+        'LOG_FILE': LOG_FILE.replace('.log', '__%s.log' % name)
+    }
 
     def parse(self, response):
         # print(response.url)
