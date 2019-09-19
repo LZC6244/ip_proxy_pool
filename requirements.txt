@@ -1,6 +1,6 @@
+Twisted==19.7.0
 psycopg2==2.8.3
-APScheduler==3.6.0
-Twisted==18.9.0
+Scrapy==1.6.0
 requests==2.21.0
 Django==2.2.4
-Scrapy==1.6.0
+APScheduler==3.6.0
