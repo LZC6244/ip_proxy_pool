@@ -33,6 +33,9 @@ pthon scheduler.py
 ```shell script
 nohup pthon scheduler.py &
 ```
+### Ubuntu 中使用
+若在 `Ubuntu` 中使用，可将本代理池注册成服务。  
+方法请看[这里](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/Ubuntu_service.md)
 ## 在爬虫中使用本代理池
 以 scrapy 为例。  
 非本地情况下，IP 地址更换为本项目实际 IP 地址即可。  
@@ -106,6 +109,17 @@ class ManageProxy(object):
 | del/ | post | 代理 priority -1，若 -1 之后 priority=0 则从库中移除该代理 | HttpResponse | ip,port,verify_time |
 | get_csrf/ | post | 获取 csrf 信息，用于验证，无该信息则访问 api 失败 | JsonResponse | None |
 | list/ | post | 分页展示所有的代理 | HttpResponse | page |
+| admin/ | get | 后台入口 | HttpResponse | None |  
+
+**后台**已创建管理员账户 `admin`  
+更改密码可以在本项目的 `ip_proxy_site` 路径下使用以下命令：
+```shell script
+python manage.py changepassword username(admin)
+```
+或者创建一个新的管理员：
+```shell script
+python manage.py createsuperuser
+```
 ## 目前代理源
 | 网站名称 | 地址 |
 | :-- | :-- |
