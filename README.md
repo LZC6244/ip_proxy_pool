@@ -33,9 +33,8 @@ pthon scheduler.py
 ```shell script
 nohup pthon scheduler.py &
 ```
-### Ubuntu 中使用
-若在 `Ubuntu` 中使用，可将本代理池注册成服务。  
-方法请看[这里](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/Ubuntu_service.md)
+- 若在 `Ubuntu` 中使用，可将本代理池注册成服务。  
+- 方法请看[这里](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/Ubuntu_service.md)
 ## 在爬虫中使用本代理池
 以 scrapy 为例。  
 非本地情况下，IP 地址更换为本项目实际 IP 地址即可。  
@@ -131,3 +130,5 @@ python manage.py createsuperuser
 - [ ] 增加定时删除前几天的 `scrapy` `log` 的程序  
 
 see  [TODO_HISTORY](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/TODO_history.md)
+## 建议与改进
+有什么问题或建议或比较好的免费代理网站推荐，欢迎提 [issues](https://github.com/LZC6244/ip_proxy_pool/issues)  
