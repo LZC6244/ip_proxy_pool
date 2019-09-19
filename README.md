@@ -124,6 +124,7 @@ python manage.py createsuperuser
 | :-- | :-- |
 | 快代理 | [传送门](https://www.kuaidaili.com/free/inha/1/) |
 | 免费代理IP库 | [传送门](http://ip.jiangxianli.com/?page=1) |
+| 西刺代理 | [传送门](https://www.xicidaili.com/nn/1) |
  
 ## TODO
 - [ ] 增加更多代理源网站
