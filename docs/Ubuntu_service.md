@@ -7,7 +7,8 @@ Description= Start IP proxy pool automatically
 
 [Service]
 type=forking
-WorkingDirectory=/root/ip_proxy_pool
+# 工作路径要注意修改为自己本地的实际路径
+WorkingDirectory=/yourdir/ip_proxy_pool
 ExecStart=/usr/bin/python scheduler.py
 Restart=always
 RestartSec=3
