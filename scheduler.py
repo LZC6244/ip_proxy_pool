@@ -17,7 +17,7 @@ def enable_crawl_spider():
 
 def enable_verify_spider():
     os.chdir(spider_path)
-    os.system('scrapy crawl verify')
+    os.system('python start_verify.py')
 
 
 def enable_server():
@@ -27,10 +27,7 @@ def enable_server():
 
 sched = BlockingScheduler()
 sched.add_job(enable_server, name='Django server')
-# 设置了运行间隔后，第一次运行需等待间隔时间
-# 故在此处需要加入一个初始运行任务
-# sched.add_job(enable_crawl_spider, name='初始代理爬取')
 sched.add_job(enable_crawl_spider, 'interval', hours=4, next_run_time=datetime.now() + timedelta(seconds=10),
               name='定时代理爬取')
-sched.add_job(enable_verify_spider, 'interval', hours=2, name='定时代理有效性验证')
+sched.add_job(enable_verify_spider, 'interval', seconds=2, name='定时代理有效性验证')
 sched.start()
