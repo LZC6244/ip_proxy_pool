@@ -132,4 +132,5 @@ python manage.py createsuperuser
 
 see  [TODO_HISTORY](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/TODO_history.md)
 ## 建议与改进
+[HISTORY](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/history.md)  
 有什么问题或建议或比较好的免费代理网站推荐，欢迎提 [issues](https://github.com/LZC6244/ip_proxy_pool/issues)  
