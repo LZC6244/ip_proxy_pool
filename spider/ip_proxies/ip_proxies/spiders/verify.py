@@ -24,6 +24,7 @@ class VerifySpider(BaseSpider):
         # 启用中间件
         'DOWNLOADER_MIDDLEWARES': DOWNLOADER_MIDDLEWARES
     }
+    proxy_info = []
 
     def parse(self, response):
         # 本次只获取代理共有几页
@@ -35,21 +36,27 @@ class VerifySpider(BaseSpider):
         # 页数 URL 列表，如 'http://127.0.0.1:8000/ip_proxy/list/?page=1' 'http://127.0.0.1:8000/ip_proxy/list/?page=2' ...
         page_li = [url_1 + str(x) for x in range(1, total_page + 1)]
         for url in page_li:
-            request = Request(url=url, callback=self.parse_list, dont_filter=True)
+            request = Request(url=url, callback=self.parse_list, meta={'total_page': total_page}, dont_filter=True)
             yield request
 
     def parse_list(self, response):
+        total_page = response.meta['total_page']
         proxy_li = response.xpath('//table[@class="table table-bordered table-striped"]/tbody/tr')
         for p in proxy_li:
-            item = IpProxiesItem()
-            item['ip'] = p.xpath('./td[1]/text()').get()
-            item['port'] = p.xpath('./td[2]/text()').get()
+            # tmp_li=[ip,port,net_type]
             net_type = p.xpath('./td[3]/text()').get()
             if not net_type:
                 net_type = 'HTTP'
-            proxy = net_type.lower() + '://' + item['ip'] + ':' + item['port']
-            request = Request(url=random.choice(TEST_URLS), meta={'proxy': proxy, 'item': item},
-                              callback=self.verify_porxy, dont_filter=True)
-            # # 是否设置 proxy 的标志 （ 在中间件中获取不到该值时默认设为 False ）
-            # request.meta['SetProxy'] = True
-            yield request
+            tmp_li = [p.xpath('./td[1]/text()').get(), p.xpath('./td[2]/text()').get(), net_type]
+            self.proxy_info.append(tmp_li)
+        # 获取完所有代理再进行代理验证
+        if len(self.proxy_info) > (total_page - 1) * 20:
+            for p_info in self.proxy_info:
+                item = IpProxiesItem()
+                item['ip'] = p_info[0]
+                item['port'] = p_info[1]
+                item['net_type'] = p_info[2]
+                proxy = item['net_type'].lower() + '://' + item['ip'] + ':' + item['port']
+                request = Request(url=random.choice(TEST_URLS), headers=self.headers,
+                                  meta={'proxy': proxy, 'item': item}, callback=self.verify_porxy, dont_filter=True)
+                yield request
