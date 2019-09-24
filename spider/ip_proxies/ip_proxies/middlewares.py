@@ -141,8 +141,9 @@ class ManageProxy(object):
     #         request.meta['verify_time'] = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
 
     def process_exception(self, request, exception, spider):
-        if all([isinstance(exception, TimeoutError),
-                request.meta.get('retry_times') == RETRY_TIMES]):
+        # if all([isinstance(exception, TimeoutError),
+        #         request.meta.get('retry_times') == RETRY_TIMES]):
+        if request.meta.get('retry_times') == RETRY_TIMES:
             item = request.meta['item']
             verify_time = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
             del_proxy(item['ip'], item['port'], verify_time)
