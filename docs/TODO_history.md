@@ -17,3 +17,8 @@
 - [x] 修复使用爬虫模板时反复调用 parse 的问题（未指定callback）
 - [x] 增加验证代理可用性的程序
 - [x] 增加联动 `Scrapy` 和 `Django` 的调度程序
+
+---
+## 2019.9.26
+- [x] 增加代理源 [云代理](http://www.ip3366.net/free/?stype=1&page=1)
+- [x] 增加定时删除前几天的 `scrapy` `log` 的程序 

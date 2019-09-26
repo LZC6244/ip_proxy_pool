@@ -9,6 +9,8 @@
 - 高匿：服务器不知道我们使用了代理。
 - 普匿：服务器知道我们使用了代理，但一般无法查出我们的IP地址。
 - 透明：服务器知道我们使用了代理，且能查出你的IP地址。（本 IP 池不收集）
+  
+**代理匿名度取自代理源网站，本项目不做判断！**
 ### 响应时间说明
 - 不计算响应时间，因为 scrapy 是`异步`发送请求的
 ### 代理验证说明
@@ -18,6 +20,9 @@
 - 爬取到新的代理时 `priority` 设为 `2` 
 - 代理验证成功时 `priority` 加 `1`
 - 代理验证失败时 `priority` 减 `1` ，`priority` 为 `0` 则删除该代理
+### 日志文件说明
+- 每天删除一次两天前的日志文件，避免积累过多
+- 时间以启动本项目时间为基准
 ## 环境需求
 在本项目路径下执行命令：
 ```shell script
@@ -125,10 +130,10 @@ python manage.py createsuperuser
 | 快代理 | [传送门](https://www.kuaidaili.com/free/inha/1/) |
 | 免费代理IP库 | [传送门](http://ip.jiangxianli.com/?page=1) |
 | 西刺代理 | [传送门](https://www.xicidaili.com/nn/1) |
+| 云代理 | [传送门（高匿）](http://www.ip3366.net/free/?stype=1&page=1)[传送门（普匿）](http://www.ip3366.net/free/?stype=2&page=1) |
  
 ## TODO
-- [ ] 增加更多代理源网站
-- [ ] 增加定时删除前几天的 `scrapy` `log` 的程序  
+- [ ] 增加更多代理源网站 
 
 see  [TODO_HISTORY](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/TODO_history.md)
 ## 建议与改进
