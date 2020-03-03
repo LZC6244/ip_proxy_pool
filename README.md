@@ -61,8 +61,6 @@ DEL_PROXY = 'http://127.0.0.1:8000/ip_proxy/del/'
 - 在 `middlewares.py` 中添加以下：
 ```python
 import requests
-from datetime import datetime
-from twisted.internet.error import TimeoutError
 from yourproject.settings import GET_CSRF, GET_PROXY, DEL_PROXY, RETRY_TIMES
 
 session = requests.session()
@@ -84,17 +82,6 @@ class ManageProxy(object):
         else:
             proxy_json = get_proxy()
             request.meta['proxy'] = proxy_json.get('proxy')
-            request.meta['ip_proxy'] = proxy_json.get('ip')
-            request.meta['port_proxy'] = proxy_json.get('port')
-            request.meta['verify_time'] = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
-
-    def process_exception(self, request, exception, spider):
-        if all([isinstance(exception, TimeoutError),
-                request.meta.get('retry_times') == RETRY_TIMES]):
-            item = request.meta['item']
-            verify_time = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
-            del_proxy(item['ip'], item['port'], verify_time)
-        # return request.copy()
 ```
 ## 拓展
 可自行拓展代理源网站，建议使用 `scrapy` 。  
