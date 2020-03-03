@@ -37,5 +37,5 @@ sched.add_job(enable_server, name='Django server')
 sched.add_job(enable_crawl_spider, 'interval', hours=4, next_run_time=datetime.now() + timedelta(seconds=10),
               name='定时代理爬取')
 sched.add_job(enable_verify_spider, 'interval', hours=2, name='定时代理有效性验证')
-sched.add_job(remove_log, 'calendarinterval', days=1, name='定时删除2天前的日志文件')
+sched.add_job(remove_log, 'interval', days=2, name='定时删除2天前的日志文件')
 sched.start()

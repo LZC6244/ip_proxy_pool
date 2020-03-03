@@ -36,7 +36,7 @@ pthon scheduler.py
 若是将本项目部署在云主机之类的，通过 `ssh` 操控  
 为了避免 `session` 断开则程序中断，可以使用以下命令：
 ```shell script
-nohup pthon scheduler.py &
+nohup python scheduler.py &
 ```
 - 若在 `Ubuntu` 中使用，可将本代理池注册成服务。  
 - 方法请看[这里](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/Ubuntu_service.md)
