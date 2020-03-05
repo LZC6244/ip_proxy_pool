@@ -57,6 +57,7 @@ class VerifySpider(BaseSpider):
                 item['port'] = p_info[1]
                 item['net_type'] = p_info[2]
                 proxy = item['net_type'].lower() + '://' + item['ip'] + ':' + item['port']
+                print('正在验证：%s' % proxy)
                 request = Request(url=random.choice(TEST_URLS), headers=self.headers,
                                   meta={'proxy': proxy, 'item': item}, callback=self.verify_porxy, dont_filter=True)
                 yield request
