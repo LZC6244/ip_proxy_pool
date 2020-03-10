@@ -120,6 +120,8 @@ python manage.py createsuperuser
 | 云代理 | [传送门（高匿）](http://www.ip3366.net/free/?stype=1&page=1)[传送门（普匿）](http://www.ip3366.net/free/?stype=2&page=1) |
  
 ## TODO
+- [ ] 增加一列表明上次是否验证成功
+- [ ] 优化优先级规则，第几次验证失败优先级就减少几次`（如第一次失败-1，第二次失败-2）` 
 - [ ] 增加更多代理源网站 
 
 see  [TODO_HISTORY](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/TODO_history.md)
