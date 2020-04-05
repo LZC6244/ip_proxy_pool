@@ -28,7 +28,8 @@
 ```shell script
 pip install -r requirements.txt
 ```
-## 初次使用代理池需执行
+## 初次使用代理池
+在 `ip_proxy_site` 路径下执行
 ```shell script
 python manage.py makemigrations ip_proxy
 python manage.py migrate
