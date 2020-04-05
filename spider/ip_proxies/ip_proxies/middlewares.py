@@ -138,13 +138,13 @@ class ManageProxy(object):
     #         request.meta['proxy'] = proxy_json.get('proxy')
     #         request.meta['ip_proxy'] = proxy_json.get('ip')
     #         request.meta['port_proxy'] = proxy_json.get('port')
-    #         request.meta['verify_time'] = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
+    #         request.meta['verify_time'] = datetime.strftime(datetime.now(), TIME_FORMAT)
 
     def process_exception(self, request, exception, spider):
         # if all([isinstance(exception, TimeoutError),
         #         request.meta.get('retry_times') == RETRY_TIMES]):
         if request.meta.get('retry_times') == RETRY_TIMES:
             item = request.meta['item']
-            verify_time = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
+            verify_time = datetime.strftime(datetime.now(), TIME_FORMAT)
             del_proxy(item['ip'], item['port'], verify_time)
         # return request.copy()

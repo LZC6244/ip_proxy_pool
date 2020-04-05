@@ -106,18 +106,10 @@ TEST_URLS = [
 LOG_LEVEL = 'DEBUG'
 # LOG_LEVEL = 'WARNING'
 LOG_ENCODING = 'utf-8'
-date = datetime.now()
-os.makedirs('log', exist_ok=True)
-LOG_FILE = 'log/{}-{}-{}T{}_{}_{}.log'.format(date.year, date.month, date.day, date.hour, date.minute, date.second)
-
-# postgresql 数据库配置
-PG_DB = 'md_site'
-PG_TABLE = 'ip_proxy'
-PG_USER = 'lzc'
-PG_PASSWD = 'lzc123'
-PG_HOST = '139.9.58.217'
-# PG_HOST='127.0.0.1'
-PG_PORT = '5432'
+DATE = datetime.now()
+os.makedirs(os.path.join(os.path.dirname(__file__), 'log'), exist_ok=True)
+TIME_FORMAT = '%Y-%m-%dT%H_%M_%S'
+LOG_FILE = f'log/{DATE.strftime(TIME_FORMAT)}.log'
 
 # 不需要去重 2019.8.23
 # # 使用scrapy-redis里的去重组件，不使用scrapy默认的去重

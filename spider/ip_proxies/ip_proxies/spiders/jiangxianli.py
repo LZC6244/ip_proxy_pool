@@ -13,7 +13,8 @@ class JiangxianliSpider(BaseSpider):
     start_urls = ['http://ip.jiangxianli.com/?page=1']
 
     custom_settings = {
-        'LOG_FILE': LOG_FILE.replace('.log', '__%s.log' % name)
+        'LOG_FILE': LOG_FILE.replace('log/', f'log/{name}__', 1),
+
     }
 
     def parse(self, response):

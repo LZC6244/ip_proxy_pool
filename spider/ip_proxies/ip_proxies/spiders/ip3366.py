@@ -16,7 +16,7 @@ class Ip3366Spider(BaseSpider):
     # 普匿
     start_urls += ['http://www.ip3366.net/free/?stype=2&page=%s' % x for x in range(1, 4)]
     custom_settings = {
-        'LOG_FILE': LOG_FILE.replace('.log', '__%s.log' % name)
+        'LOG_FILE': LOG_FILE.replace('log/', f'log/{name}__', 1),
     }
 
     def parse(self, response):
@@ -38,7 +38,7 @@ class Ip3366Spider(BaseSpider):
                 item[k] = v
             # 从上述数据组合代理为如下格式 ：http://some_proxy_server:port
             proxy = item['net_type'].lower() + '://' + item['ip'] + ':' + item['port']
-            print(proxy)
+            # print(proxy)
             # 需加 dont_filter=True 因为测试代理是否可用每次都是访问固定的几个页面来测试
             request = Request(url=random.choice(TEST_URLS), headers=self.headers,
                               meta={'proxy': proxy, 'item': item},

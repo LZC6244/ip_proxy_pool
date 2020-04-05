@@ -16,6 +16,10 @@ class IpProxy(models.Model):
     ip_location = models.CharField(max_length=100)
     verify_time = models.DateTimeField()
     priority = models.IntegerField(default=2)
+    # 0 代表验证成功
+    # 1 及以上代表验证失败的次数
+    count = models.IntegerField(default=0)
+    available = models.BooleanField(default=None, null=True)
 
     class Meta:
         # managed = False

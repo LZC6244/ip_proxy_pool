@@ -16,7 +16,7 @@ class VerifySpider(BaseSpider):
     DOWNLOADER_MIDDLEWARES['ip_proxies.middlewares.ManageProxy'] = 150
 
     custom_settings = {
-        'LOG_FILE': LOG_FILE.replace('.log', '__%s.log' % name),
+        'LOG_FILE': LOG_FILE.replace('log/', f'log/{name}__', 1),
         # 下面三行设置该爬虫为 BFO
         'DEPTH_PRIORITY': 1,
         'SCHEDULER_DISK_QUEUE': 'scrapy.squeues.PickleFifoDiskQueue',

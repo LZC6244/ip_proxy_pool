@@ -5,8 +5,8 @@ from .models import IpProxy
 
 
 class IpProxyAdmin(admin.ModelAdmin):
-    list_display = ['ip', 'port', 'anonymity', 'net_type', 'ip_location', 'verify_time']
-    list_filter = ['anonymity', 'net_type']
+    list_display = ['ip', 'port', 'anonymity', 'net_type', 'ip_location', 'available', 'count', 'verify_time']
+    list_filter = ['anonymity', 'net_type', 'available']
     search_fields = ['ip']
 
 

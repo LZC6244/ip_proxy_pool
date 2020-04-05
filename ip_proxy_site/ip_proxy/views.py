@@ -1,11 +1,17 @@
-import json
+import os
 import random
 from datetime import datetime
+from runpy import run_path
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.middleware.csrf import get_token
 from .models import IpProxy
+
+SPIDER_SETTINGS = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), '../../spider/ip_proxies/ip_proxies/settings.py'))
+SPIDER_SETTINGS = run_path(SPIDER_SETTINGS)
+TIME_FORMAT = SPIDER_SETTINGS.get('TIME_FORMAT', '%Y-%m-%dT%H_%M_%S')
 
 
 # Create your views here.
@@ -15,6 +21,7 @@ def proxy_list(request):
     :param request:
     :return:
     """
+    # p_all = IpProxy.objects.all().order_by('-verify_time', '-available')
     p_all = IpProxy.objects.all().order_by('-verify_time')
     # 每页20个代理
     paginator = Paginator(p_all, 20)
@@ -65,6 +72,7 @@ def proxy_get(request):
         'ip_location': p.ip_location,
         'verify_time': p.verify_time,
         'priority': p.priority,
+        'available': p.available,
         'proxy': proxy,
     }
     return JsonResponse(data=json_data)
@@ -80,13 +88,14 @@ def proxy_update(request):
     ip = request.POST.get('ip')
     port = request.POST.get('port')
     verify_time = request.POST.get('verify_time')
-    verify_time = datetime.strptime(verify_time, '%Y-%m-%d %H:%M:%S')
+    verify_time = datetime.strptime(verify_time, TIME_FORMAT)
     p = IpProxy.objects.filter(ip=ip, port=port)
 
     # print('*' * 50)
     if p:
         status = 'Update'
         data = p[0]
+        data.count = 0
         data.priority += 1
         data.verify_time = verify_time
         data.save()
@@ -101,6 +110,7 @@ def proxy_update(request):
             anonymity=anonymity,
             net_type=net_type,
             ip_location=ip_location,
+            available=True,
             verify_time=verify_time,
         )
     # print('*' * 50)
@@ -120,17 +130,19 @@ def proxy_del(request):
     ip = request.POST.get('ip')
     port = request.POST.get('port')
     verify_time = request.POST.get('verify_time')
-    verify_time = datetime.strptime(verify_time, '%Y-%m-%d %H:%M:%S')
+    verify_time = datetime.strptime(verify_time, TIME_FORMAT)
     p = IpProxy.objects.filter(ip=ip, port=port)
     if not p:
         return HttpResponse('<p>ip:\t%s</p>\n<p>port:\t%s</p>\n<p>The proxy does not exist.</p>' % (ip, port))
+    count = p[0].count
     priority = p[0].priority
-    if priority < 2:
+    if priority <= 0:
         p.delete()
         return HttpResponse(
             '<p>ip:\t%s</p>\n<p>port:\t%s</p>\n<p>The proxy priority has been deleted.</p>' % (ip, port))
     else:
-        priority -= 1
+        count += 1
+        priority -= count
         p.update(priority=priority, verify_time=verify_time)
         return HttpResponse(
             '<p>ip:\t%s</p>\n<p>port:\t%s</p>\n<p>priority(now):\t%s</p><p>The proxy priority has been reduced by '

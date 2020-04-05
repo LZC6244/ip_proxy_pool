@@ -19,7 +19,7 @@
 - 若时间间隔到了 `爬取/验证` 代理未完成，则会等待其完成再进行 `爬取/验证` 代理动作
 - 爬取到新的代理时 `priority` 设为 `2` 
 - 代理验证成功时 `priority` 加 `1`
-- 代理验证失败时 `priority` 减 `1` ，`priority` 为 `0` 则删除该代理
+- 代理验证失败时 `priority` 减失败次数，`priority` 小于 `0` 则删除该代理
 ### 日志文件说明
 - 每天删除一次两天前的日志文件，避免积累过多
 - 时间以启动本项目时间为基准
@@ -27,6 +27,11 @@
 在本项目路径下执行命令：
 ```shell script
 pip install -r requirements.txt
+```
+## 初次使用代理池需执行
+```shell script
+python manage.py makemigrations ip_proxy
+python manage.py migrate
 ```
 ## 启动代理池
 在本项目路径下执行命令：
@@ -97,7 +102,7 @@ class ManageProxy(object):
 | :--  | :--: | :-- | :-- | :-- |
 | get/ | get | 从代理池随机返回一个代理 | JsonResponse | None |
 | update/ | post | 更新代理，不存在则插入，存在则 priority +1 和 更新验证时间 | HttpResponse | ip,port,verify_time,[anonymity,net_type,ip_location] |
-| del/ | post | 代理 priority -1，若 -1 之后 priority=0 则从库中移除该代理 | HttpResponse | ip,port,verify_time |
+| del/ | post | 代理 priority - 已验证失败次数，若减法过后 priority<=0 则从库中移除该代理 | HttpResponse | ip,port,verify_time |
 | get_csrf/ | post | 获取 csrf 信息，用于验证，无该信息则访问 api 失败 | JsonResponse | None |
 | list/ | post | 分页展示所有的代理 | HttpResponse | page |
 | admin/ | get | 后台入口 | HttpResponse | None |  
@@ -120,8 +125,6 @@ python manage.py createsuperuser
 | 云代理 | [传送门（高匿）](http://www.ip3366.net/free/?stype=1&page=1)[传送门（普匿）](http://www.ip3366.net/free/?stype=2&page=1) |
  
 ## TODO
-- [ ] 增加一列表明上次是否验证成功
-- [ ] 优化优先级规则，第几次验证失败优先级就减少几次`（如第一次失败-1，第二次失败-2）` 
 - [ ] 增加更多代理源网站 
 
 see  [TODO_HISTORY](https://github.com/LZC6244/ip_proxy_pool/blob/master/docs/TODO_history.md)

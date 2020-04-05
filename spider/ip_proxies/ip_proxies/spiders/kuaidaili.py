@@ -12,7 +12,7 @@ class KuaidailiSpider(BaseSpider):
     # 只爬取前三页的就够了，免费代理质量不高
     start_urls = ['https://www.kuaidaili.com/free/inha/%s/' % x for x in range(1, 4)]
     custom_settings = {
-        'LOG_FILE': LOG_FILE.replace('.log', '__%s.log' % name)
+        'LOG_FILE': LOG_FILE.replace('log/', f'log/{name}__', 1),
     }
 
     # start_urls = ['https://www.kuaidaili.com/free/inha/2/']

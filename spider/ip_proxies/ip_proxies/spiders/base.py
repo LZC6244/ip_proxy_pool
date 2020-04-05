@@ -3,7 +3,7 @@ import ast
 import scrapy
 from scrapy import Request, FormRequest
 from datetime import datetime
-from ip_proxies.settings import GET_CSRF, UPDATE_PROXY
+from ip_proxies.settings import GET_CSRF, UPDATE_PROXY, TIME_FORMAT
 
 """
 爬虫爬取代理后，将代理上传到数据库的模板
@@ -35,8 +35,8 @@ class BaseSpider(scrapy.Spider):
         #     f.write(response.body)
         item = response.meta['item']
         # 最后验证时间
-        date = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
-        # date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+        date = datetime.strftime(datetime.now(), TIME_FORMAT)
+        # date = datetime.strptime(date, TIME_FORMAT)
         item['verify_time'] = date
         url = GET_CSRF
         request = Request(url=url, callback=self.update_proxy, dont_filter=True)

@@ -10,7 +10,8 @@
             <th>类型</th>
             <th>匿名度</th>
             <th>位置</th>
-            <th>最后验证时间</th>
+            <th>上次验证时间</th>
+            <th>上次验证结果</th>
             <th>优先级</th>
         </tr>
         </thead>
@@ -23,6 +24,7 @@
                 <td>{{ proxy.anonymity }}</td>
                 <td>{{ proxy.ip_location }}</td>
                 <td>{{ proxy.verify_time | date:'Y-m-d H:i:s' }}</td>
+                <td>{{ proxy.available }}</td>
                 <td>{{ proxy.priority }}</td>
             </tr>
         {% endfor %}
