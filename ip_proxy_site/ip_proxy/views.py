@@ -145,7 +145,7 @@ def proxy_del(request):
     else:
         count += 1
         priority -= count
-        p.update(priority=priority, verify_time=verify_time, available=False)
+        p.update(priority=priority, verify_time=verify_time, available=False, count=count)
         return HttpResponse(
             '<p>ip:\t%s</p>\n<p>port:\t%s</p>\n<p>priority(now):\t%s</p><p>The proxy priority has been reduced by '
             'one.</p>' % (
