@@ -12,22 +12,22 @@ from rm_log import rm_log
 project_path = os.path.dirname(__file__)
 server_path = os.path.join(project_path, 'ip_proxy_site')
 spider_path = os.path.join(project_path, 'spider', 'ip_proxies')
-log_path = os.path.join(spider_path, 'log')
+log_path = os.path.join(spider_path, 'ip_proxies', 'log')
 
 
 def enable_crawl_spider():
     os.chdir(spider_path)
-    subprocess.run('python start.py')
+    subprocess.run('python start.py'.split())
 
 
 def enable_verify_spider():
     os.chdir(spider_path)
-    subprocess.run('python start_verify.py')
+    subprocess.run('python start_verify.py'.split())
 
 
 def enable_server():
     os.chdir(server_path)
-    subprocess.run('python manage.py runserver 0.0.0.0:8000')
+    subprocess.run('python manage.py runserver 0.0.0.0:8000'.split())
 
 
 def remove_log():

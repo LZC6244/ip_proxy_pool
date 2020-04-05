@@ -107,7 +107,8 @@ LOG_LEVEL = 'DEBUG'
 # LOG_LEVEL = 'WARNING'
 LOG_ENCODING = 'utf-8'
 DATE = datetime.now()
-os.makedirs(os.path.join(os.path.dirname(__file__), 'log'), exist_ok=True)
+log_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '../log'))
+os.makedirs(log_path, exist_ok=True)
 TIME_FORMAT = '%Y-%m-%dT%H_%M_%S'
 LOG_FILE = f'log/{DATE.strftime(TIME_FORMAT)}.log'
 
