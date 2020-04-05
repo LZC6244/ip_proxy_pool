@@ -9,7 +9,8 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 from rm_log import rm_log
 
-project_path = os.path.dirname(__file__)
+# 必须使用绝对路径，使用 dirname 在终端会报错
+project_path = os.path.abspath('.')
 server_path = os.path.join(project_path, 'ip_proxy_site')
 spider_path = os.path.join(project_path, 'spider', 'ip_proxies')
 log_path = os.path.join(spider_path, 'ip_proxies', 'log')
@@ -18,16 +19,19 @@ log_path = os.path.join(spider_path, 'ip_proxies', 'log')
 def enable_crawl_spider():
     os.chdir(spider_path)
     subprocess.run('python start.py'.split())
+    # os.system('python start.py')
 
 
 def enable_verify_spider():
     os.chdir(spider_path)
     subprocess.run('python start_verify.py'.split())
+    # os.system('python start_verify.py')
 
 
 def enable_server():
     os.chdir(server_path)
     subprocess.run('python manage.py runserver 0.0.0.0:8000'.split())
+    # os.system('python manage.py runserver 0.0.0.0:8000')
 
 
 def remove_log():
