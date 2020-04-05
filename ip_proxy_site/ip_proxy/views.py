@@ -97,6 +97,7 @@ def proxy_update(request):
         data = p[0]
         data.count = 0
         data.priority += 1
+        data.available = True
         data.verify_time = verify_time
         data.save()
     else:
@@ -131,6 +132,7 @@ def proxy_del(request):
     port = request.POST.get('port')
     verify_time = request.POST.get('verify_time')
     verify_time = datetime.strptime(verify_time, TIME_FORMAT)
+    # available = request.POST.get('available')
     p = IpProxy.objects.filter(ip=ip, port=port)
     if not p:
         return HttpResponse('<p>ip:\t%s</p>\n<p>port:\t%s</p>\n<p>The proxy does not exist.</p>' % (ip, port))
@@ -143,7 +145,7 @@ def proxy_del(request):
     else:
         count += 1
         priority -= count
-        p.update(priority=priority, verify_time=verify_time)
+        p.update(priority=priority, verify_time=verify_time, available=False)
         return HttpResponse(
             '<p>ip:\t%s</p>\n<p>port:\t%s</p>\n<p>priority(now):\t%s</p><p>The proxy priority has been reduced by '
             'one.</p>' % (

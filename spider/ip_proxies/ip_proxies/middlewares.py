@@ -3,7 +3,7 @@ import random
 import requests
 from datetime import datetime
 from twisted.internet.error import TimeoutError
-from ip_proxies.settings import USER_AGENTS, GET_CSRF, GET_PROXY, DEL_PROXY, RETRY_TIMES
+from ip_proxies.settings import USER_AGENTS, GET_CSRF, GET_PROXY, DEL_PROXY, RETRY_TIMES, TIME_FORMAT
 # Define here the models for your spider middleware
 #
 # See documentation in:
