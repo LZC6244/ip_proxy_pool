@@ -23,6 +23,8 @@ def proxy_list(request):
     """
     # p_all = IpProxy.objects.all().order_by('-verify_time', '-available')
     p_all = IpProxy.objects.all().order_by('-verify_time')
+    p_last_true = p_all.filter(available=True)
+    p_last_true_num = p_last_true.count
     # 每页20个代理
     paginator = Paginator(p_all, 20)
     page_num = request.GET.get('page', 1)
@@ -50,7 +52,8 @@ def proxy_list(request):
         pages_range = range(max(1, page_num - 2), max(6, page_num + 3))
 
     return render(request, 'ip_proxy/list.html',
-                  {'paginator': paginator, 'proxies': proxies, 'pages_range': pages_range})
+                  {'paginator': paginator, 'proxies': proxies, 'pages_range': pages_range,
+                   'p_last_true_num': p_last_true_num})
 
 
 def proxy_get(request):

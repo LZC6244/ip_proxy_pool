@@ -31,6 +31,6 @@
         </tbody>
     </table>
     {% include "pagination.html" with page=proxies %}
-    <p>每页 20 个代理<br>共 {{ paginator.count }} 个代理<br>共 {{ paginator.num_pages }} 页</p>
+    <p>共 {{ paginator.num_pages }} 页，每页 20 个代理<br>共 {{ paginator.count }} 个代理，其中上次验证可用共 {{ p_last_true_num }} 个</p>
     <p class="text-danger">代理IP采集于网络，仅供学习交流<br>请勿用于非法途径，违者后果自负</p>
 {% endblock %}
