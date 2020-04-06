@@ -101,7 +101,7 @@ class ManageProxy(object):
 ## 代理池 API
 | Path | Mmethod | Description | Return | Arguments | 
 | :--  | :--: | :-- | :-- | :-- |
-| get/ | get | 从代理池随机返回一个代理 | JsonResponse | None |
+| get/ | get | 从代理池随机返回一个（上次验证可用）代理 | JsonResponse | None |
 | update/ | post | 更新代理，不存在则插入，存在则 priority +1 和 更新验证时间 | HttpResponse | ip,port,verify_time,[anonymity,net_type,ip_location] |
 | del/ | post | 代理 priority - 已验证失败次数，若减法过后 priority<=0 则从库中移除该代理 | HttpResponse | ip,port,verify_time |
 | get_csrf/ | post | 获取 csrf 信息，用于验证，无该信息则访问 api 失败 | JsonResponse | None |

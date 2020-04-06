@@ -57,10 +57,11 @@ def proxy_get(request):
     """
     一个取代理数据的接口
     随机从代理池中取一条数据，返回 json
+    只抽取上次验证可用的
     :param request:
     :return: json 数据
     """
-    p_all = IpProxy.objects.all()
+    p_all = IpProxy.filter(available=True)
     num = random.randint(0, p_all.count() - 1)
     p = p_all[num]
     proxy = p.net_type.lower() + '://' + p.ip + ':' + p.port
@@ -138,13 +139,13 @@ def proxy_del(request):
         return HttpResponse('<p>ip:\t%s</p>\n<p>port:\t%s</p>\n<p>The proxy does not exist.</p>' % (ip, port))
     count = p[0].count
     priority = p[0].priority
+    count += 1
+    priority -= count
     if priority <= 0:
         p.delete()
         return HttpResponse(
             '<p>ip:\t%s</p>\n<p>port:\t%s</p>\n<p>The proxy priority has been deleted.</p>' % (ip, port))
     else:
-        count += 1
-        priority -= count
         p.update(priority=priority, verify_time=verify_time, available=False, count=count)
         return HttpResponse(
             '<p>ip:\t%s</p>\n<p>port:\t%s</p>\n<p>priority(now):\t%s</p><p>The proxy priority has been reduced by '
