@@ -61,7 +61,7 @@ def proxy_get(request):
     :param request:
     :return: json 数据
     """
-    p_all = IpProxy.filter(available=True)
+    p_all = IpProxy.objects.filter(available=True)
     num = random.randint(0, p_all.count() - 1)
     p = p_all[num]
     proxy = p.net_type.lower() + '://' + p.ip + ':' + p.port
